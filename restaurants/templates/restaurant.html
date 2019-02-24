@@ -1,0 +1,77 @@
+<body>
+<div id="restau" data-role="page" data-add-back-btn="true">
+ 
+    <div data-role="header">
+        <h1> Restaurant Picker</h1>
+    </div> 
+ 
+    <div data-role="content">
+        {% if message %}<p><strong>{{ message }}</strong></p>{% endif %}
+    <div class="ui-grid-a" id="restau_infos">
+        <div class="ui-block-a">
+            <h1>{{ restaurant.name }}</h1>
+            <p><strong>{{ restaurant.desc}}</strong></p>
+            <p> On the menu: </p>
+                <ul>
+                    {% for m in rest_menu %}
+                        <li>{{m}}</li>
+                    {% endfor %}
+                </ul>
+        </div>
+ 
+        <div class="ui-block-b">
+            <p><img src={{ restaurant.picture.url }} alt={{restaurant.name}} /></p>
+            <p><a href="{{ restaurant.web }}" rel="external" data-role="button">See our website</a></p>
+        </div>
+    </div><!-- /grid-a -->
+ 
+    <hr/>
+ 
+    <div class="ui-grid-a" id="contact_infos">
+        <div class="ui-block-a">
+            <h2> Contact us</h2>
+            <p>{{restaurant.address}}</p>
+            <p>{{restaurant.post_code}} {{restaurant.city }}</p>
+        </div>
+ 
+        <div class="ui-block-b">
+            <img src={{restaurant.map.url}} alt="map" />
+        </div>
+    </div><!-- /grid-a -->
+ 
+    <div id="contact_buttons">
+        <a href="{{restaurant.gmap_url}}" data-role="button" data-icon="maps"> Find us on Google Maps </a>
+        <a href="tel:{{restaurant.phone}}"  data-role="button" data-icon="tel"> Call us </a>
+    </div> 
+    <hr/>
+ 
+    <div id="notation">
+        <form action="{% url 'restaurants:vote' restaurant.id %}" method="post">
+        {% csrf_token %}
+        <label for="select-choice-0" class="select"><h2> User rating </h2></label>
+        <select name="note_utilisateur" onchange="this.form.submit()" id="note_utilisateur" data-native-menu="false" data-theme="c" >
+           <option>Choose your vote</option>
+           <option value="1" class="one"> Not good at all </option>
+           <option value="2" class="two">Average </option>
+           <option value="3" class="three">Pretty good </option>
+           <option value="4" class="four"> Excellent </option>
+        </select>
+    </form>
+    </div>
+ 
+    <script type="text/javascript">
+    $( '#restau' ).live( 'pageinit',function(event){
+        var SelectedOptionClass = $('option:selected').attr('class');
+        $('div.ui-select').addClass(SelectedOptionClass);
+        
+        $('#note_utilisateur').live('change', function(){    
+            $('div.ui-select').removeClass(SelectedOptionClass);
+            
+            SelectedOptionClass = $('option:selected').attr('class');
+            $('div.ui-select').addClass(SelectedOptionClass);       
+         });
+    });
+    </script>
+    </div>
+</div>
+</body>

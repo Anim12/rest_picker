@@ -1,0 +1,19 @@
+<body>
+<div id="choisir_ville" data-role="page" data-add-back-btn="true">
+    <div data-role="header">
+        <h1> Restaurant Picker</h1>
+    </div>
+    <div data-role="content">
+        <div class="choice_list">
+            <h1> In which city do you want to eat? </h1>
+            {% if city_list %}
+                <ul data-role="listview" data-inset="true" data-filter="true"  >
+                    {% for city_dict in city_list %}
+                            <li><a href="{% url 'restaurants:choose_restaurant' food_id city_dict.city.id %}"  data-transition="slidedown">{{ city_dict.city.name }}<span class="ui-li- count">{{ city_dict.count }}</span></a> </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</body>

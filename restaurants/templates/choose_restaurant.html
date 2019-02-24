@@ -1,0 +1,19 @@
+<body>
+<div id="choisir_restau" data-role="page" data-add-back-btn="true">
+    <div data-role="header">
+        <h1> Restaurant Picker</h1>
+    </div>
+    <div data-role="content">
+        <div class="choice_list">
+            <h1> Please choose a restaurant.</h1>
+            {% if rests %}
+                <ul data-role="listview" data-inset="true" >
+                    {% for r in rests %}
+                    <li><a href="{% url 'restaurants:restaurant' r.id%}" data-transition="slidedown"> <img src={{ r.picture.url }}/> <h2>{{ r.name }}</h2> <p class="classement {{r.get_votes_display}}">{{r.votes}} stars  </p></a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</body>
